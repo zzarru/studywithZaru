@@ -1,0 +1,8 @@
+#1 django 프로젝트 만들기
+django-admin startproject my_pjt
+
+#2 앱 만들기
+python manage.py startapp my_app
+
+#3 서버 실행 명령어
+python manage.py runserver

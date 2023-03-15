@@ -1,0 +1,19 @@
+div{
+    color:aquamarine
+}
+
+#blue{
+    color: blue;
+}
+
+.orange{
+    color: darkorange;
+}
+
+.orange-test{
+    color: rgb(165, 41, 202);
+}
+
+.test{
+    font-family: 'Tilt Neon', cursive;
+}

@@ -1,0 +1,27 @@
+.container{
+    width: 100px;
+    border: 1px solid red;
+    display: flex;
+}
+
+.item{
+    border: 1px solid black;
+}
+
+.one{
+    flex-basis: 100px;
+    flex-shrink: 1;
+    order: 3;
+
+}
+.two{
+    flex-basis: 50px;
+    flex-shrink: 1;
+    order: 2;
+}
+.three{
+    flex-basis: 10px;
+    flex-shrink: 1;
+    order: 2;
+
+}
