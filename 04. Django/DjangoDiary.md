@@ -55,8 +55,8 @@
 > `manage.py` : django 프로젝트와 소통하는 유틸리티
 >
 > 사용법 : `python manage.py <command> [options]` 
->
-> 
+
+
 
 서버 실행하기 : `python manage.py runserver`
 
@@ -278,11 +278,7 @@ HTTP Method 예시 : GET, POST, PUT, DELETE
 
 ---
 
-# Django Diary
-
-글쓴이 : 자루
-
-
+# 여기 아래는 정리해야됨..
 
 
 
