@@ -340,7 +340,7 @@ skeleton 템플릿 (;뼈대가 되는 템플릿)을 통해서 모든 공통 요�
    (1) mypjt > urls.py  ; 프로젝트의 urls.py에서 여러 앱의 url을 관리한다. 
 
    - `from django.urls import path, include`  및
-   - `path('articles/', include(articles.urls')),`
+   - `path('articles/', include('articles.urls')),`
 
    (2) articles 앱 폴더 안에 `urls.py` 파일 만들기 ; 개별 앱에서 url을 관리한다. 
 
@@ -427,7 +427,7 @@ URL tag의 변화
 #### **Client**
 
 **HTML <form> element** 
-: 데이터를 어디(action)로 어떤 방식(method)으로 보낼지.
+: 사용자로 부터 할당된 데이터를 어디(action)로 어떤 방식(method)으로 보낼지.
 
 - action : 입력 데이터가 전송 될 URL을 지정 (default는 현재 페이지의 URL)
 
