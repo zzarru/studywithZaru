@@ -24,13 +24,13 @@
 
 -- 가상화면 실행 결과 확인하기 : (venv)가 떠있으면 가상환경 실행된 거임 --
 
-![01 가상환경 세팅](C:\Users\SSAFY\Desktop\DjangoDiary\capture\01 가상환경 세팅.png)
+<img src=".\01. venv.png"  />
 
 `deactivate` : 가상환경 비활성화
 
 
 
-**pip 설치하기**
+**pip 설치하기**치
 
 ###### ! pip란 파이썬으로 작성된 패키지 소프트웨어를 설치 및 관리하는 시스템이다. 
 
@@ -44,13 +44,15 @@
 
 
 
-**Django 프로젝트 만들기**
+**Django 프로젝트 만들기** ([프로젝트 시작하기 (공식문서 예제)](https://docs.djangoproject.com/en/4.1/intro/tutorial01/))
 
 `django-admin startproject [프로젝트 이름] .` 
 
 *프로젝트 이름 뒤에 .을 찍으면 알아서 풀리고 .을 안찍으면 project 폴더 안에 새로운 project 폴더를 생성한다. (폴더 안에 풀기) ; 이름이 낭비되기 때문에 기본적으로 .을 찍고 프로젝트를 만든다. 
 
-![02 django 프로젝트 만들기](C:\Users\SSAFY\Desktop\DjangoDiary\capture\02 django 프로젝트 만들기.png) 프로젝트를 생성하면 manage.py가 자동으로 만들어진다. 
+<img src=".\02. django pjt.png" />
+
+ 프로젝트를 생성하면 manage.py가 자동으로 만들어진다. 
 
 > `manage.py` : django 프로젝트와 소통하는 유틸리티
 >
@@ -58,13 +60,23 @@
 
 
 
+
+
 서버 실행하기 : `python manage.py runserver`
 
-<img src="C:\Users\SSAFY\Desktop\DjangoDiary\capture\03 서버 실행하기.png" alt="03 서버 실행하기" style="zoom: 50%;" /> `ctrl + 서버주소 클릭` 하면 서버 페이지 확인 가능하다. 
+<img src=".\03. runserver.png">
 
 
 
-![03-2 db 파일 생성](C:\Users\SSAFY\Desktop\DjangoDiary\capture\03-2 db 파일 생성.png) runserver 하고 나면 자동으로 `db.sqlite3` 이 생성된다. 
+(1)  `ctrl + 서버주소 클릭` 하면 서버 페이지 확인 가능하다. 
+
+(2) runserver 하고 나면 자동으로 `db.sqlite3` 이 생성된다. 
+
+
+
+-> 프로젝트 생성하고 나면 생기는 파일이랑 그 역할 정리하기
+
+
 
 
 
@@ -82,9 +94,9 @@
 
  **어플리케이션 등록하기**
 
-앱을 사용하기 위해서 `settings.py` 의 INSTALLED_APPS 리스트에 반드시 추가해야한다. 
+앱을 사용하기 위해서 프로젝트의  `settings.py` 에서 INSTALLED_APPS 리스트에 반드시 추가해야한다. 
 
-![04 앱 등록](C:\Users\SSAFY\Desktop\DjangoDiary\capture\04 앱 등록.png)
+<img src=".\04. installed apps.png">
 
 ! 주의 'articles' 뒤에 , 빼먹지 않기! 
 
@@ -96,12 +108,62 @@
 
 
 
-**Templates**
+> Projects vs. apps
+>
+> What’s the difference between a project and an app? An app is a web application that does something – e.g., a blog system, a database of public records or a small poll app. A project is a collection of configuration and apps for a particular website. A project can contain multiple apps. An app can be in multiple projects.
+>
+> 출처: [공식문서](https://docs.djangoproject.com/en/4.1/intro/tutorial01/)
+
+
+
+-> 프로젝트랑 어플리케이션 역할 차이 더 공부해보기
+
+앱 만들면 생성되는 파일에 대해서 공부하기!
+
+
+
+### Django 흐름 이해하기
+
+> urls - views - templates으로 흘러가는 구조를 이해한다.
+>
+> 1) home/ 으로 접속하면
+> 2) views의 hola 함수가 실행되고
+> 3) index.html을 통하여 "hola!"가 서버 화면에 뜨도록 한다.
+
+
+
+1) urls.py
+
+   <img src=".\07. urls.png" style="zoom:80%;" >
+   
+   `path('[urls/ 경로 입력]',views.index, name= 'index')`
+
+
+
+
+
+2. views.py
+
+   <img src=".\08. views.png"  >
+
+
+
+3. index.html
+
+   <img src=".\09. index.png" style="zoom: 50%;" >
+
+### Template
+
+**Templates 생성하기**
 
 : 실제 화면에 그려지는 부분 (파일의 구조나 레이아웃을 정의한다.)
 
 - 기본 경로 : `앱 이름 / templates / 앱이름`  
   *템플릿 폴더의 이름은 반드시 'templates'라고 지정해야한다.
+
+<img src=".\05. templates.png" style="zoom: 67%;"   >
+
+
 
 >render 함수는 자동으로 'templates'라는 폴더를 찾아가서 템플릿을 찾음. 
 >
@@ -131,7 +193,125 @@
 
 
 
+**Template Inheritance** (템플릿 상속)
 
+템플릿 상속은 기본적으로 코드의 재사용성에 초점을 맞춘다.
+
+skeleton 템플릿 (;뼈대가 되는 템플릿)을 통해서 모든 공통 요소를 포함하고 하위 템플릿이 재정의 (override) 할 수 있는 블록을 정의할 수 있다. 
+
+
+
+템플릿 상속에 관련된 태그
+
+`{% extends '' %}`  : 자식(하위) 템플릿이 부모 템플릿을 확장한다는 것을 알린다. (*반드시 템플릿 최상단에 작성되어야 한다. *2개 이상 사용할 수 없다.)
+
+
+
+`{% block content %} {% endblock content %}` : 하위 템플릿에서 재지정(overridden) 할 수 있는 블록을 지정
+
+`{% block content %} {% endblock %}` : 가독성을 높이기 위해서 선택적을 endblock 태그에 이름을 지정할 수 있다. 
+
+ -> tag에 이름을 지정하는 이유는 멀까...? tag에 따라서 들어가는 위치가 달라지는 걸까?
+
+
+
+>If you have app and project templates directories that both contain overrides, **the default Django template loader will try to load the template from the project-level directory first.** In other words, [`DIRS`](https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-TEMPLATES-DIRS) is searched before [`APP_DIRS`](https://docs.djangoproject.com/en/4.1/ref/settings/#std-setting-TEMPLATES-APP_DIRS). 
+>
+>: default는 pjt 레벨의 디렉토리에서 먼저 템플릿을 로드한다. APP_DIRS 보다 DIRS를 먼저 탐색한다.
+
+
+
+1. 개별로 템플릿을 상속 받기
+
+   `{% extends 'articles/base.html'%}`
+
+2. 모든 앱에서 base.html을 상속 받기
+
+   - base.html을 프로젝트 상단에 두기 : 프로젝트 폴더와 같은 층위에 `templates` 폴더 만들고 그 안에 base.html 작성하기
+   - 프로젝트의 `settins.py`에 가서 `'DIRS' : [BASE_DIR / 'templates'],` 설정해주기 ; django에게 부모 템플릿인 base.html 여깄어! 하고 알려주는 거임
+   - 필요한 템플릿의 상단에 `{% extends 'base.html'%}`  작성하기
+
+
+
+<img src=".\10-1. base html.png">
+
+1) 앱 외부에 templates 폴더 생성하고 그 아래에 skeleton 템플릿인 base.html을 만든다.
+2) 상속받을 모든 하위 템플릿에 부트스트랩을 적용하기 위한 작업
+3) 공통으로 사용할 내용을 작성하고 하위 템플릿에서 override 할 부분은 `{% block [name] %}`을 통해서 지정해준다. 
+
+
+
+<img src=".\10-2. template inheritance.png">
+
+프로젝트의  settings.py에 들어가서 템플릿 주소 지정해주기
+
+
+
+<img src=".\10-3. template inheritance.png">
+
+1) 상속 받을 템플릿 최상단에 `extends` 태그 작성해준다.
+2) 하위 템플릿에서 보여줄 내용은 block 태그 내부에 작성해준다. 
+
+왜 img 경로를 로컬로 하면 안되지..ㅠ html 공부하기..
+
+<img src=".\10-4. result.png">
+
+
+
+
+
+1. 상속 받은 부분
+2. 하위 템플릿 내부 부분
+
+
+
+
+
+---
+
+### Django Design Pattern
+
+**MTV 패턴**
+
+>Django는 MVC (Model, View, Controller) 을 기반으로 한 MTV 패턴을 사용한다. 패턴에 따른 차이점은 없고 다만 일부 역할에 대해 부르는 이름이 다르다. 
+
+- Mode - 데이터
+
+  데이터와 관련된 로직을 관리한다.
+
+  응용프로그램의 데이터 구조를 정의하고 데이터 베이스의 기록을 관리한다.
+
+
+
+- Templates - 화면
+
+  레이아웃과 화면을 처리한다.
+
+  MVC 패턴에서 View의 역할을 담당한다. 
+
+
+
+- View - 중간 처리 및 응답 반환
+
+  Model과 Template과 관련한 로직을 처리하여 응답을 반환한다.
+
+  클라이언트 요청에 대해 처리를 분기(; 명령 수행이 조건에 의하여 나뉘는 것)하는 역할
+
+  MVC 패턴에서  Controller의 역할에 해당한다.
+
+  
+
+  <img src=".\06. django mtv.png" style="zoom: 80%;"> (출처: MDN)	
+
+
+
+
+
+
+
+
+
+---
 
 ### MTV 구조와 CRUD
 
@@ -139,7 +319,7 @@
 
 : URL 주소를 변수로 사용하여 view 함수의 인자로 넘길 수 있다. 
 
-- 변수는 `<>` 에 정의하며 view 함수의 인자로 할당된다. 
+- 변수는 `<>` 에 정의하며 <u>view 함수의 인자로 할당</u>된다. (이해함?)
 - Default 타입은 'string'이며 5가지 타입으로 명시할 수 있다. (str, int 등)
 - variable routing으로 할당된 변수를 인자로 받고 템플릿 변수로 사용할 수 있다. 
 
@@ -157,18 +337,36 @@
 
 2. **각각의 app 폴더 안에 urls.py를 작성한다.**
 
-   (1) mypjt > urls.py 
+   (1) mypjt > urls.py  ; 프로젝트의 urls.py에서 여러 앱의 url을 관리한다. 
 
    - `from django.urls import path, include`  및
    - `path('articles/', include(articles.urls')),`
 
-   (2) articles 앱 폴더 안에 `urls.py` 파일 만들기
+   (2) articles 앱 폴더 안에 `urls.py` 파일 만들기 ; 개별 앱에서 url을 관리한다. 
 
    (3) articles > urls.py
 
    - `from django.urls import path`
    - `from . import views`
    - `urlpatterns = []`
+
+
+
+<img src=".\11-1. urls mapping.png">
+
+프로젝트 내 urls.py 작성
+
+
+
+<img src=".\11-2. urls mapping.png">
+
+1) urls import 하기
+2) urlpatterns 작성하기
+3) views import 해주기 이 때 article 내부이기 때문에 from 뒤에 . 현재경로임을 표시해주면된다. 
+
+
+
+**include 되는 앱의 urls.py에 urlpatterns가 작성되어 있지 않으면 에러가 발생하므로 빈리스트라도 작성되어 있어야한다!
 
 
 
@@ -182,6 +380,22 @@
 
 -> view 함수와 템플릿에서 특정 주소를 쉽게 참조할 수 있도록 돕는다.
 
+-> 만약 "index/" 의 주소를 사용했떤 모든 곳을 찾아서 변경해야하는 번거로움을 방지할 수 있다. 
+
+<img src=".\12. url name.png">
+
+
+
+url 태그 사용하기
+
+`{% url '' %}` ; url 태그 : 주어진 url 패턴 이름 및 선택적 매개 변수와 일치하는 절대 경로 주소를 반환한다...? 엥
+
+<img src=".\13-1. url tag.png">
+
+
+
+<img src=".\13-2. url tag.png">
+
 
 
 **URL namespace**
@@ -189,6 +403,8 @@
 : URL namespace를 사용하면 서로 다른 앱에서 동일한 URL 이름을 사용하는 경우에도 이름이 지정된 URL을 고유하게 사용할 수 있다. 
 
 `app_name = 'articles'`
+
+<img src=".\14-1. url name.png">
 
 
 
@@ -198,25 +414,9 @@ URL tag의 변화
 
 *app_name을 지정한 이후에는 url 태그에서 반드시 `app_name:url_name`의 형태로만 사용해야한다. 그렇지 않으면 NoReverceMatch 에러가 발생한다. 
 
+<img src=".\14-2. url name.png">
 
 
-Template inheritance** (템플릿 상속)
-
-`{% extends '' %}`  : 자식(하위) 템플릿이 부모 템플릿을 확장한다는 것을 알린다. (*반드시 템플릿 최상단에 작성되어야 한다.)
-
-`{% block content %} {% endblock content %}` : 하위 템플릿에서 재지정(overridden) 할 수 있는 블록을 지정
-
-
-
-1) 개별로 템플릿을 상속 받기
-
-   `{% extends 'articles/base.html'%}`
-
-2) 모든 앱에서 base.html을 상속 받기
-
-   - base.html을 프로젝트 상단에 두기 : 프로젝트 폴더와 같은 층위에 `templates` 폴더 만들고 그 안에 base.html 작성하기
-   - 프로젝트의 `settins.py`에 가서 `'DIRS' : [BASE_DIR / 'templates'],` 설정해주기 ; django에게 부모 템플릿인 base.html 여깄어! 하고 알려주는 거임
-   - 필요한 템플릿의 상단에 `{% extends 'base.html'%}`  작성하기
 
 
 
@@ -509,3 +709,12 @@ git bash에서 vs code 열기
 
 `mkdir [폴더명]` : 폴더 생성하기 (make directory)
 
+
+
+---
+
+vs code 설정
+
+emmet 설정 : django-html  / html 추가하기
+
+자동 줄바꿈 : 설정 - word wrap 켜주기
