@@ -435,6 +435,8 @@ URL tag의 변화
 
 
 
+
+
 **HTML <input> element**
 : 사용자로부터 데이터를 입력받기 위해 사용한다. 
 
@@ -442,9 +444,25 @@ URL tag의 변화
 
 - id :
 
-- name : form을 통해 제출(submit)했을 때, name 속성에 설정된 값을 서버로 전송하고 서버는 name 속성에 설정된 값을 통해 사용자가 입력한 데이터 값에 접근할 수 있다. 
+- name : form을 통해 제출(submit)했을 때, name 속성에 설정된 값을 서버로 전송하고 서버는 **name 속성에 설정된 값을 통해 사용자가 입력한 데이터 값에 접근**할 수 있다.  (이 말을 이제서야 이해했네..!)
 
   서버에 전달하는 파라미터(name은 key, value는 value)로 매핑
+  
+  
+
+[throw.html 작성하기]<img src=".\15-1. form.png">
+
+> 하.. html 공부 안해서.. 모름... 
+>
+> label의 for 와 input의 id를 통일해줘야댐 -> Throw라는 글자를 눌렀을 때 input 박스가 활성화 됨!
+>
+> name이 input 값을 받아서 request의 딕셔너리 형태로 데이터를 저장함 (name이 key가 되고 입력받은 data가 value로 지정되는 형식이다.)
+
+
+
+
+
+[catch.html 작성하기]<img src=".\15-2. form.png">
 
 
 
@@ -452,7 +470,17 @@ URL tag의 변화
 
 HTTP : HTML 문서와 같은 리소스(데이터, 자원)들을 가져올 수 있도록 해주는 프로토콜 (규칙, 규약)
 
-HTTP Method 예시 : GET, POST, PUT, DELETE
+HTTP Method 예시 : **GET**, POST, PUT, DELETE
+
+
+
+- GET : 서버로 부터 정보를 조회하는데 사용한다. 데이터를 가져올 때만 사용해야한다. 
+
+  데이터는 URL 포함되어 서버로 보내진다. 
+
+
+
+
 
 
 
@@ -464,17 +492,142 @@ HTTP Method 예시 : GET, POST, PUT, DELETE
 
 예시) `http://127.0.0.1:8000/articles/throw/?message=1시간만잘까#`
 
+파라미터가 여러개일 경우에는 &를 붙여서 여러개의 파라미터를 넘길 수 있다. 
+
 
 
 ### Server
 
+> GET 메서드를 이용하여 URL에 포함되어 서버에 전달된 데이터는 어떻게 접근할 수 있을까?
+>
+> ; view 함수에서는 어떻게 해당 데이터에 접근 할 수 있을까?
+
 **request 객체**
 
-: 모든 요청 데이터에는 view 함수의 첫번째 인자 `request`에 들어있다. 
+: 모든 요청 데이터는 view 함수의 첫번째 인자 `request`에 들어있다. 
 
 
 
- 
+request는 어떤 객체인지 print를 통해서 알아보자! (throw.html에서 작성한 form 참조)
+
+[catch 함수를 통해 결과확인(print)]<img src=".\16. request.png">
+
+request를 프린트하면 url 주소로 입력된 값들이 전부 넘어오는구나
+
+?  request.GET 이 뭘 불러오는 걸까? `.GET`의 용법이 어떤 거지? -> .GET을 통해서 name을 key : value를 data로 한 딕셔너리가 넘어온다. 
+
+?? request.GET.get('message') 는 뭘 불러오는 걸까...................... `.get('message')` 딕셔너리 key값을 이용해서 value를 불러오는 거임 ; GET이 딕셔너리 형태로 넘어오니까
+
+
+
+[catch 함수 완성하기]<img src=".\17-1. catch.png">
+
+[catch.html 완성하기]<img src=".\17-2. catch.png">
+
+
+
+---
+
+--여기서 한 번 나눠서 프로젝트 파일 만들어야함--
+
+djagno 모델을 공부하기 위해서, database 기초 용어는 알아야댐.
+
+**Database**
+
+1. 스키마 (Schema)
+
+   : 뼈대 (Structure), 데이터베이스에서 자료의 구조, 표현방법, 관계 등을 정의한 구조?
+
+   
+
+2. 테이블 (Table)
+
+   : 필드(열)과 레코드(행)를 사용해 조직된 데이터 요소들의 집합 (==관계;relation)
+
+   1) 필드 (field) 
+
+      : 속성 혹은 열(column)
+
+      각 필드에는 고유한 데이터 형식이 지정된다. ex) int, text 등
+
+   2)  레코드 (record) 
+
+      : 튜플 혹은 행(row)
+
+      테이블의 데이터는 레코드에 저장된다. 
+
+      아래 예시의 경우 4개의 레코드가 존재한다. 
+
+   3) PK (Primary Key) ; id열
+
+      : 기본 키; 각 레코드의 고유한 값 (식별자로 사용)
+
+      **다른 항목과 절대로 중복될 수 없는 단일 값(unique)**
+
+   4) Query (쿼리)
+
+      : 데이터를 조회하기 위한 명령어
+
+      조건에 맞는 데이터를 추출하거나 조작하는 명령어 (주로 테이블형 자료구조에서)
+
+      Query를 날린다 == 데이터베이스를 조작한다. 
+
+   
+
+   <img src=".\18. table.png">
+
+   
+
+
+
+### Django Model
+
+> python의 class 공부 다시 해야함............
+
+django는 model을 통해 데이터에 접근하고 조작
+
+model == 저장된 데이터베이스의 구조(layout)
+
+일반적으로 각각의 모델은 하나의 데이터베이스 테이블에 매핑(mapping)
+
+​	-> 모델 클래스 1개 == 데이터베이스 테이블 1개
+
+
+
+django는 웹 어플리케이션 데이터를 구조화하고 조작하기 위한 추상적인 계층(모델)을 제공한다. 
+
+-> 모델을 통해서 데이터를 관리한다. 
+
+
+
+**모델 작성하기**
+
+- models.py 작성
+
+  모델 클래스를 작성하는 것 == 데이터 베이스 테이블의 스키마를 정의하는 것
+
+[models.py 작성하기]<img src=".\19. models.png">
+
+> 1. crud 프로젝트 만들기
+> 2. articles 앱 만들기
+> 3. settings.py에 앱 등록하기
+> 4. models.py 작성하기
+>
+> *id 칼럼은 테이블 생성하면 django가 자동으로 생성한다. 
+
+
+
+**모델 이해하기**
+
+각 모델은 
+
+
+
+
+
+
+
+
 
 ---
 
