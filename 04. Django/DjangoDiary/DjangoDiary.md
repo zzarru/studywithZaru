@@ -619,9 +619,214 @@ django는 웹 어플리케이션 데이터를 구조화하고 조작하기 위�
 
 **모델 이해하기**
 
-각 모델은 
+각 모델은 django.models.Model 클래스의 서브 클래스 == django.db.models 모듈의 Model 클래스를 상속받아 구성된다! 
 
 
+
+models 모듈을 통해서 어떤 타입의 DB필드(coloumn)을 정의한 것인가 정한다. 
+
+- 클래스 변수(속성)명 : title, content ; DB 필드의 이름
+- 클래스 변수 값 (models 모듈의 field 클래스) : modles.Textfield .. ; DB필드의 데이터 타입
+
+
+
+django model field
+
+- django는 모델 필드를 통해 테이블의 필드(칼럼)에 저장한 데이터 유형(int, txt 등)을 정의한다. 
+
+- 데이터 유형에 따른 다양한 모델 필드를 제공한다. 
+
+  ex) DataField(), CharField(), IntegerField
+
+  [공식 문서 참조](https://docs.djangoproject.com/en/3.2/ref/models/fields/)
+
+  
+
+  - 사용한 모델 필드 알아보기 (이건 따로 한 페이지에 정리하면 좋을듯)
+
+-- 여기까지 데이터베이스의 스키마 (골격)을 정의함 --
+
+이후 이 모델의 변경사항을 실제 데이터베이스에 반영하기 위한 과정이 필요하다!
+
+
+
+**Migrations**
+
+django가 모델에 생긴 변화(필드 추가, 수정 등)를 실제 DB에 반영하는 방법
+
+`python manage.py makemigrations` : 모델의 변경사항에 대한 새로운 migration을 만들 때 사용한다.
+
+<img src=".\20-1. migration.png" style="zoom:50%;" >
+
+<img src=".\20-2. migration.png" style="zoom:50%;" >
+
+명령어 실행 후 `migrations/0001_initial.py`가 생성된 것을 확인 == 파이썬으로 작성된 '설계도'
+
+
+
+`python manage.py migrate` : makemigrations으로 만든 설계또를 실제 데이터 베이스에 반영하는 과정 (db.sqlite3 파일에 반영) -> 결과적으로 **모델의 변경사항**과 **데이터베이스를 동기화**하는 과정!
+
+[migrate하기 전 db가 비어있음]<img src=".\21-1 migrate.png" >
+
+[migrate한 후 데이터 베이스에 동기화됨]<img src=".\21-2 migrate.png" >
+
+
+
+기타 migrations 명령어
+
+- `python manage.py showmigrations` : migrations 파일들이 migrate 됐는지 안됐는지 여부를 확인하는 용도 [X] 표시가 있으면 migrate가 완료됐다는 의미
+
+  [migrate가 안된 상황]<img src=".\20-2. migration.png" >
+
+
+
+makemigrations을 통해 만들어진 설계또는 파이썬으로 작성되어있다. 
+
+-> SQL만 알아들을 수 있는 DB가 어떻게 이 설계도를 어떻게 이애하고 동기화를 이룰 수 있을까?
+
+-> 이 과정에서 중간에 번역을 담당하는 것이 `ORM`
+
+
+
+### ORM
+
+Object-Relational-Mapping
+
+객체 지향 프로그래밍 언어(e.g. 파이썬)를 사용하여 호환되지 않는 유형의 시스템 간의 데이터를 변환하는 프로그래밍 기술 
+
+Django는 Dango ORM을 사용한다.  
+
+== SQL을 사용하지 않고 데이터베이스를 조작할 수 있도록 만들어주는 매개체 (라잌.. 번연기?)
+
+
+
+**사전준비**
+
+vscode SQLite 확장 프로그램 설치하기 : 직접 테이블 데이터 확인가능
+
+추가 라이브러리 설치
+
+- `pip install ipython` 
+
+  Ipython (Interactive Python) : 복수이 프로그래밍 언어에서 상호작용하는 컴퓨팅을 하기 위한 명령 셸. 인터프리터로 작동하는 파이썬 코드의 한계를 확장하여 리눅스의 쉘과 같이 이용할 수 있도록 기능이 추가된 파이썬. 
+
+-  `pip install django-extension` : shell_plus 사용하기 위함
+
+  장고의 기본명령 기능을 확장 + 부가기능 추가
+
+  -> 패키지 목록 업데이트하기 `pip freeze > requirements.txt`
+
+  
+
+  [django-extensions 등록해주기]<img src="22-1. shell.png">
+
+  등록안해주면 shell_plus 못씀
+
+**Django shell**
+
+ORM 구문 연습을 위해 파이썬 쉘 환경 사용
+
+다만 일반 파이썬 쉘을 통해서는 장고 프로젝트 환경에 영향을 줄 수 없기 때문에 django환경 안에서 진행할 수 잇는 django shell을 진행
+
+`python manage.py shell_plus` django-extenstion이 제공하는 더 강력한 shell_plus로 진행한다. (왜?)
+
+[shell_plus 활성화된 화면]<img src="22-2. shell.png">
+
+
+
+**QuerySet API**
+
+Database API
+
+django가 제공하는 ORM을 이용해 데이터 베이스를 조작하는 방법
+
+model을 정의하면 데이터를 만들고 읽고 수정하고 지울(crud) 수 있는 API(Application Programming Interface; 응용프로그램과 운영체제의 통신을 쉽게하는 연결 인터페이스)를 제공한다. 
+
+**database API 구문**
+
+<img src="23-1 api.png">
+
+- objects manager
+
+  django 모델이 데이터 베이스 쿼리작업을 가능하게 하는 인터페이스
+
+  django는 기본적으로 모든 django 모델 클래스에 대해  objects라는 manager 객체를 자동으로 추가한다. 
+
+  -- DB를 Python Class로 조작할 수 있도록 여러 메서드를 제공하는 manager
+
+- Query
+
+  데이터 베이스에 특정한 데이터를 보여달라는 요청
+
+  "쿼리문을 작성한다"
+
+  -- 원하는 데이터를 요청하기 위해 데이터베이스에 보낼 코드를 작성한다. 
+
+  이때, 파이썬으로 작성한 코드가 ORM에 의해 SQL로 변환되어 데이터 베이스에 전달되며, 데이터베이스의 응답 데이터를 ORM이 `QuerySet`이라는 자료형태로 변환하여 우리에게 전달한다. 
+
+- QuerySet
+
+  데이터베이스에게서 전달 받은 객체 목록(데이터 모음) ; 순회가 가능한 데이터로써 1개 이상의 데이터를 불러와 사용할 수 있음; 필터를 걸거나 정렬 등을 수행할 수 있다.
+
+  --데이터베이스가 단일한 객체를 반환할 때는 QuerySet이 아닌 <u>모델(Class)의 인스턴스로 반환</u>됨 (???)
+
+- QuerySet API
+
+  QuerySet과 상호작용하기 위해 사용하는 도구 
+
+---
+
+### CRUD
+
+**create**(생성)
+
+데이터 객체를 만드는 3가지 방법
+
+1. 첫번째 방법
+
+   `article = Article()` : 클래스를 통한 인스턴스 생성
+
+   `article.title` : 클래스 변수명과 같은 이름의 인스턴스 변수를 생성 후 값 할당
+
+   `article.save()` : 인스턴스로 save 메서드 호출
+
+   [첫번째 방법- 데이터 베이스와 shell_plus 창 확인하기]<img src=".\24-1. create.png">
+
+   >.save() 해주지 않으면 DB에 값이 저장되지 않는다. 
+   >
+   >save 메서드를 호출해야 비로소 DB에 값이 저장된다. (레코드 생성)
+   >
+   >.save() 하기 전과 후의 데이터 베이스의 상태 비교하기
+
+   <img src=".\24-2. create.png">
+
+   > DB 테이블의 칼럼 이름이 id임에도 pk를 사용할 수 있는 이유는 django가 제공하는 shortcut이기 때문이다. 
+
+   [인스턴스인 article을 활용하여 변수에 접근해보자! (데이터가 저장되었는지 확인)]<img src=".\24-3. create.png">
+
+
+
+2. 인스턴스 생성 시 초기값을 함께 작성하여 생성한다 (권장)
+
+   <img src=".\24-4. create.png">
+
+   > article이란 동일한 변수를 사용한 탓에.. 재할당됨. 그래서 article의 값을 불러오면 마지막에 저장된 값들이 불려온다.
+
+3. QuerySet API 중 create() method 활용
+
+   <img src=".\24-5. create.png">
+
+   > 권장하는 방법은 아님! save 메서드를 거치지 않고 바로 DB에 저장되기 때문에 위험함.
+
+`.save()` (saving object) 
+
+객체를 데이터 베이스에 저장한다.
+
+데이터 생성 시 save를 호출하기 전 객체의 id 값은 
+
+
+
+**read** (읽기)
 
 
 
