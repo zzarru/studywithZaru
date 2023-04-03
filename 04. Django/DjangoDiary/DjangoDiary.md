@@ -828,6 +828,69 @@ model을 정의하면 데이터를 만들고 읽고 수정하고 지울(crud) �
 
 **read** (읽기)
 
+QuerySet API method를 사용해 데이터를 다양하게 조회하기
+
+-> 2가지로 분류된다. 
+
+- return new querysets
+- do not return querysets
+
+
+
+`all()` 
+
+- QuerySet return
+
+- 전체 데이터 조회
+
+  
+
+`get()`
+
+- 단일 데이터 조회
+
+- 객체를 찾을 수 없으면, `DoesNotExist` 예외를 발생시킴
+
+  둘 이상의 객체를 찾으면, `MultipleObjectsReturned` 예외를 발생시킨다.
+
+  -> 이와 같은 특징 때문에 primary key와 같이 고유성(uniqueness)을 보장하는 조회에서 사용해야 한다. 
+
+  
+
+`filter()`
+
+- 지정된 조회 매개 변수와 일치하는 객체를 포함하는 새로운 QuerySet을 반환한다. 
+
+  *조회된 객체가 없거나 1개여도 QuerySet을 반환
+
+
+
+**update**(수정)
+
+과정
+
+1. 수정하고자 하는 article 인스턴스 객체를 조회 후 반환 값을 저장
+
+2. article 인스턴스 객체의 인스턴스 변수 값을 새로운 값으로 할당
+
+3. save()
+
+   <img src=".\25-1. update.png">
+
+
+
+**delete** (삭제)
+
+1. 삭제하고자 하는 article 인스턴스 객체를 조회 후 반환 값 저장
+
+2. delete() 인스턴스 메서드 호출
+
+   <img src=".\26-1. delete.png">
+
+   
+
+4. http 부터해야댐...
+
 
 
 
