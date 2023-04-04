@@ -887,9 +887,103 @@ QuerySet API method를 사용해 데이터를 다양하게 조회하기
 
    <img src=".\26-1. delete.png">
 
-   
 
-4. http 부터해야댐...
+
+---
+
+### HTTP Method
+
+**Admin site**
+
+django의 가장 강력한 기능 중 하나인 'automatic admin interface' 
+
+== 관리자 페이지
+
+- 사용자가 아닌 서버의 관리가가 활용하기 위한 페이지
+- 모델 class를 admin.py에 등록하고 관리 (원래는 모델 등록하고 migrate 햇음..)
+- 레코드 생성 여부 확인에 매우 유용 + 직접 레코드 삽입 가능
+
+
+
+admin 계정 생성하기
+
+`python manage.py createsuperuser`
+
+<img src=".\27-1. admin.png">
+
+> username과 password를 입력해 관리자 계정 생성
+>
+> email은 선택사항
+>
+> 비밀번호 생성 상 보안으로 인해 터미널에서 확인 불가능! 
+>
+> 비밀번호 너무 단순하다고 경고문 떴지만 걍 무시하고 y 하면 됨
+
+
+
+/index/ 를 통해서 관리자 페이지 접속하기
+
+<img src=".\27-2. admin.png">
+
+
+
+<img src=".\27-3. admin.png">
+
+> 계정만 만든 경우 django 관리자 화면에서 모델 클래스는 보이지 않는다.
+
+
+
+admin에 모델 클래스 등록
+
+-- 모델의 record를 보기 위해서는 admin.py에 등록해야한다.
+
+<img src=".\27-4. admin.png">
+
+
+
+
+
+admin 페이지에서 데이터 조작하기
+
+<img src=".\27-5. admin.png">
+
+
+
+<img src=".\27-6. admin.png">
+
+
+
+결과 확인하기
+
+<img src=".\27-7. admin.png">
+
+
+
+---
+
+**CRUD 구현하기**
+
+사전준비
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
