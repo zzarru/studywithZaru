@@ -965,6 +965,14 @@ admin 페이지에서 데이터 조작하기
 
 사전준비
 
+<img src=".\28-1. read.png">
+
+
+
+
+
+**REDA**(index page)
+
 
 
 
