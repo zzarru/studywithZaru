@@ -525,7 +525,7 @@ csv (comma-seperated values) : 필드를 쉼표(,)로 구분한 텍스트 데이
   SQLite는 NULL을 다른 값보다 작은 것으로 간주한다.
 
   즉, ASC를 사용하는 경우 결과의 시작 부분에 NULL이 표시되고 DESC를 사용하는 경우 결과의 끝에 NULL이 표시됨
-  
+
 
 - Filtering data
 
@@ -695,3 +695,66 @@ csv (comma-seperated values) : 필드를 쉼표(,)로 구분한 텍스트 데이
     <img src="5-7. filtering.png">
 
     <img src="5-8. filtering.png">
+
+
+
+### SQL
+
+**Grouping Data** (이제껏 데이터를 하나씩 가져왔다면 지금부터는 그룹을 가져와서 집계를 해본다.)
+
+- Aggregate function (집계 함수)
+
+  여러개의 값을 하나의 값으로 만들고 싶을 때 사용하는 함수
+
+  SELECT문의 GROUP BY 절과 함께 종종 사용된다. (GROUP BY 말고는 쓸 수 없나?)
+
+  `GROUP BY column_1, column_2`
+
+  함수 목록
+
+  - AVG(), COUNT(), MAX(), MIN(), SUM()
+
+    COUNT를 제외한 함수는 숫자를 기준으로 계산되기 때문에 반드시 컬럼의 데이터 타입이 숫자(INTEGER)일 때만 사용 가능하다.
+
+  > 왜 파이썬으로도 평균 구할 수 있는데 왜 데이터 베이스에서 함수 기능을 제공하는가?
+  >
+  > — 일반적으로 데이터베이스에서 구하는 게 효율이 더 크다. (데이터의 양이 많을 수록)
+  >
+  > — 적은양의 데이터를 정밀하게 접근해야하는 경우는 파이썬이 유리할 수도 있다.
+
+  <img src="6-1. count.png">
+
+  <img src="6-2. count.png">
+
+  <img src="6-3. count.png">
+
+  
+
+  
+
+- `GROUP BY` 절
+
+  ```sql
+  SELECT columm_1, aggregate_function(column_2)
+  FROM table_name GROUP BY column_1, column_2;
+  ```
+
+  특정 그룹으로 묶인 결과를 생성
+
+  선택된 컬럼 값을 기준으로 데이터(행)들의 공통값을 묶어서 결과로 나타냄
+
+  SELECT문의 FROM절 뒤에 작성한다.
+
+  *주의 WHERE 절이 작성된 경우, WHERE 절 뒤에 작성해야한다.
+
+  각 그룹에 대해 집계 함수를 적용하여 각 그룹에 대한 추가적인 정보를 제공할 수 있다. 
+
+  
+
+
+
+> 참고. COUNT(*)
+>
+> COUNT()에 어떤 값을 넣어도 결과는 같다. 현재 쿼리에서는 그룹화된?...
+
+- <img src="7-1. group.png">
