@@ -175,7 +175,7 @@
 
 1. request : 응답을 생성하는데 사용되는 객체
 2. template_name : 템플릿 전체 이름 또는 템플릿의 경로
-3. context : 템플릿에서 사용할 데이터 (*딕셔너리 타입으로 작성)
+3. context : 템플릿에서 사용할 데이터 (*딕셔너리 타입으로 작성) ; 꼭 딕셔너리 형태로만 넘겨줘야할까? 궁금하네요...
 
 
 
@@ -590,7 +590,7 @@ model == 저장된 데이터베이스의 구조(layout)
 
 일반적으로 각각의 모델은 하나의 데이터베이스 테이블에 매핑(mapping)
 
-​	-> 모델 클래스 1개 == 데이터베이스 테이블 1개
+​	-> 모델 클래스 1개 == 데이터베이스 테이블 1개 (이게 무슨 말일까......)
 
 
 
@@ -604,7 +604,7 @@ django는 웹 어플리케이션 데이터를 구조화하고 조작하기 위�
 
 - models.py 작성
 
-  모델 클래스를 작성하는 것 == 데이터 베이스 테이블의 스키마를 정의하는 것
+  모델 클래스를 작성하는 것 == 데이터 베이스 테이블의 스키마(뼈대; 구조)를 정의하는 것
 
 [models.py 작성하기]<img src=".\19. models.png">
 
@@ -664,7 +664,7 @@ django가 모델에 생긴 변화(필드 추가, 수정 등)를 실제 DB에 반
 
 
 
-`python manage.py migrate` : makemigrations으로 만든 설계또를 실제 데이터 베이스에 반영하는 과정 (db.sqlite3 파일에 반영) -> 결과적으로 **모델의 변경사항**과 **데이터베이스를 동기화**하는 과정!
+`python manage.py migrate` : makemigrations으로 만든 설계도를 실제 데이터 베이스에 반영하는 과정 (db.sqlite3 파일에 반영) -> 결과적으로 **모델의 변경사항**과 **데이터베이스를 동기화**하는 과정! (만약 모델에 설정된 필드와 데이터베이스에 있는 데이터의 유형이 다르면..... 어떻게 되는 걸까)
 
 [migrate하기 전 db가 비어있음]<img src=".\21-1 migrate.png" >
 
@@ -965,23 +965,121 @@ admin 페이지에서 데이터 조작하기
 
 사전준비
 
-<img src=".\28-1. read.png">
+1) base.html -- bootstrap CDN 및 템플릿 추가 경로 작성
+
+2) crud/urls.py -- articles/urls.py -- url 분리 및 연결
+
+3) index 페이지 작성 -- urls.py > views.py > index.html
+
+4) Article Model 작성 -- articles/models.py
+
+   <img src=".\28-1. read.png">
+
+   > Article 모델에 제목, 내용, 수정일, 작성일 포함..
+   >
+   > 모델을 만드는 이유가 뭔데?.. 클래스 만드는 거랑 똑같은 거지?
 
 
 
+**READ**
 
+INDEX 페이지
 
-**REDA**(index page)
+1. 전체 게시글 조회
 
+   index 페이지에서 전체 게시글을 조회해서 출력한다.
 
+   views.py
 
+   <img src=".\29-1. index.png">
 
+   >1. articles/models.py에 정의한 Article 모델을 가져온다.  
+   >2. ORM언어를 통해 데이터 베이스에 접근
+   >3. context에 담아서 딕셔너리 형태로 템플릿에서 사용할 데이터를 넘겨준다!
 
+   index.html
 
+   <img src=".\29-2. index.png">
 
+   결과 확인
 
+   <img src=".\29-3. index.png">
 
+DETAIL 페이지
 
+개별 상세 페이지 
+
+모든 게시글마다 뷰함수와 템플릿 파일을 만들 수 없다.
+
+글 번호 (pk)를 활용하여 하나의 뷰 함수와 템플릿 파일로 대응 -- Variable Routing 활용
+
+1. urls
+
+   url로 특정 게시글을 조회할 수 있는 번호를 받는다. 
+
+   <img src=".\30-1. detail.png">
+
+2. views
+
+   <img src=".\30-2. detail.png">
+
+   >오른쪽 pk는 variable routing을 통해 받은 pk
+   >
+   >왼쪽 pk는 DB에 저장된 레코드의 id 칼럼
+   >
+   >...하? 그래서 이게 먼가요
+   >
+   >그리고 왜 걍 article이라고 변수명을 지어서 날 헷갈리게 하나요?
+
+3. detail.html
+
+   <img src=".\30-3. detail.png">
+
+   >작성햇고
+
+4. 결과물
+
+   <img src=".\30-4. detail.png">
+
+영화 제목 누르면 상세 페이지로 넘어가도록 index.html 수정하기
+
+1. index.html 수정
+
+   <img src=".\30-5. detail.png">
+
+   >url 'articles:detail' -> articles라는 앱네임의 views 함수인 detail 로 간다.
+   >
+   >article.pk 라는 인자와 함께 넘겨준다. 
+
+2. 결과물
+
+   <img src=".\30-6. detail.png">
+
+   
+
+**CREATE**
+
+1. 사용자의 입력을 받을 페이지를 렌더링 하는 함수 : new
+
+   1. urls.py
+
+      <img src=".\31-1. new.png">
+
+   2. views
+
+      <img src=".\31-2. new.png">
+
+   3. new.html
+
+      <img src=".\31-3. new.png">
+
+   4. 결과물
+
+      <img src=".\31-4. new.png">
+
+      
+
+2. 사용자가 입력한 데이터를 전송받아 DB에 저장하는 함수 : create
 
 
 
