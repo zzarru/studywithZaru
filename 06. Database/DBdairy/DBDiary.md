@@ -749,12 +749,168 @@ csv (comma-seperated values) : 필드를 쉼표(,)로 구분한 텍스트 데이
 
   각 그룹에 대해 집계 함수를 적용하여 각 그룹에 대한 추가적인 정보를 제공할 수 있다. 
 
-  
+
+- <img src="7-1. group.png">
 
 
+
+
+
+<img src="7-2. group.png">
+
+> count(*) == 모든 데이터를 세주세요!
+>
+> from users에서 country 별로 그룹 지어서!
+>
+> 각 지역별로 그룹이 나뉘어졌기 때문에 COUNT(*)는 지역별 데이터 개수를 센다.
+
+
+
+교수님?...모든 데이터를 센다는 게 어떤 의미인가요?
 
 > 참고. COUNT(*)
 >
-> COUNT()에 어떤 값을 넣어도 결과는 같다. 현재 쿼리에서는 그룹화된?...
+> COUNT()에 어떤 값 -- COUNT(age), COUNT(last_name) 등 --을 넣어도 결과는 같다. 현재 쿼리에서는 그룹화된 country를 기준으로 카운트 하는 것이기 때문에 (...? 먼말일까...???????)
 
-- <img src="7-1. group.png">
+<img src="7-3. group.png">
+
+
+
+AS 키워드를 통해서 컬럼명을 임시로 변경하여 조회할 수 있다. 
+
+<img src="7-3. group.png">
+
+
+
+
+
+### Changing data
+
+실습 편의를 위한 새 테이블 생성
+
+<img src="8-1. changing.png">
+
+
+
+**INSERT statement**
+
+```sql
+INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...)
+```
+
+- 새 행을 테이블에 삽입한다. 
+
+- 문법 규칙
+
+  1. 먼저 INSERT INTO 키워드 뒤에 데이터를 삽입할 테이블의 이름을 지정
+
+  2. 테이블 이름 뒤에 **쉼표로 구분된 컬럼 목록**(선택사항)을 추가
+
+     -- 컬럼 목록은 선택사항이지만 컬럼 목록을 포함하는 것이 권장된다. 
+
+  3.  VALUES 키워드 뒤에 **쉼표로 구분된 값 목록**을 추가
+
+     -- 만약 컬럼 목록을 생략하는 경우 목록의 모든 컬럼에 대한 값을 지정해야됨 -- 아 오키 (아래 실습 아래 입력값 확인)
+
+     -- 값 목록의 값 개수는 칼럼 목록의 칼럼 개수와 같아야함
+
+- 실습
+
+  <img src="8-2. changing.png">
+
+  <img src="8-3. changing.png">
+
+
+
+
+
+**UPDATE statement**
+
+```sql
+UPDATE table_name
+SET column_1 = new_value_1, column_2 = new_value_2
+WHERE search_condition;
+```
+
+1.  UPDATE 절 이후에 업데이트할 테이블 지정
+
+2.  SET절에서 테이블의 각 칼럼에 대해 새 값을 지정
+
+3. WHERE 절의 조건(선택사항)을 사용하여 업데이트할 행을 지정한다.
+
+   -- WHERE 절을 생략하면 UPDATE문은 테이블의 **모든 행에 있는 데이터를 업데이트**함
+
+4. 선택적으로 `ORDER BY` 및 `LIMIT` 절을 사용하여 업데이트할 행 수를 지정할 수도 있다. 
+
+
+
+- 실습
+
+  <img src="8-4. changing.png">
+
+
+
+**DELETE statement**
+
+```sql
+DELETE FROM table_name
+WHERE search_condition;
+```
+
+- 테이블의 한 행, 여러 행 및 모든 행을 삭제할 수 있음
+
+- 문법 규칙
+
+  1. DELETE FROM 키워드 뒤에 행을 제거하려는 테이블의 이름 지정
+
+  2. WHERE절 (선택사항)에 검색 조건을 추가하여 제거할 행을 식별
+
+     WHERE 절을 생략하면 DELETE문은 테이블의 모든 행을 삭제한다. 
+
+  3. 선택적으로 `ORDER BY` 및 `LIMIT` 절을 사용하여 삭제할 행 수를 지정할 수도 있다. 
+
+- 실습
+
+  <img src="8-5. changing.png">
+
+  > ```sql
+  > -- 5번 데이터 삭제하기
+  > DELETE FROM classmates
+  > WHERE name = '최지수'
+  > ;
+  > 
+  > -- 이렇게해도 같은 결과 만들 수 있음
+  > ```
+
+  
+
+  > 참고
+  >
+  > COUNT(*) 을 하면 NULL 값도 다 세준다.
+  >
+  > COUNT(’name’) 을하면 NULL 값을 제외하고 세준다.
+
+  <img src="8-6. changing.png">
+
+  
+
+  ​	테이블의 '데이터'를 삭제한다. (not '테이블' 삭제 -- drop table 하면 안된다.) -> 이렇게 하면 rowid도 다 날아간다! 완전 초기화됨
+
+  <img src="8-7. changing.png">
+
+
+
+
+
+
+
+### 정규형
+
+왜 강의안 수정 안해줘요.
+
+
+
+### JOIN
+
+테이블은 여러개로 나뉜다. 

@@ -1081,6 +1081,61 @@ DETAIL 페이지
 
 2. 사용자가 입력한 데이터를 전송받아 DB에 저장하는 함수 : create
 
+   1. urls.py
+
+      <img src=".\32-1. create.png">
+
+   2. views.py
+
+      <img src=".\32-2. create.png">
+
+      >2번 데이터 생성하기의 경우 3가지 방법으로 가능하다 (ORM)
+      >
+      >그 중 가장 많이 쓰이는 2번째 방법으로 생성했음
+      >
+      >1번 혹은 2번 생성 방식을 사용하는 이유,
+      >
+      >- create 메서드가 더 간단해 보이지만 추후 데이터가 저장되기 전에 유효성 검사 과정을 거치게 될 예정
+      >- 유효성 검사가 진행된 후에 save 메서드가 호출되는 구조를 택하기 위함
+
+   
+
+   create 함수를 통해서 데이터를 가져와 데이터베이스에 저장했다. 그럼 유저는 어디를 보게 해야할까? --> index, detail 등 이미 만들어져 있는 url로 보내면 된다. 
+
+   
+
+   **django shortcut function** : `redirect()`
+
+   : 인자가 작성된 곳으로 다시 요청을 보낸다.
+
+   인자
+
+   1. view name (URL pattern name) : `return redirect('articles:index')`
+   2. absolute or relative URL : `return redirect ('/articles/')`
+
+   
+
+   >render와 redirect의 차이점
+   >
+   >- render : 화면을 바로 그린다.  
+   >- redirect : url로 보낸다. 
+
+    3. form 마무리
+
+       <img src=".\32-3. create.png">
+
+       > new.html에서 form으로 받은 데이터를 articles의 create 함수로 보내준다!
+       >
+       > form action에 url 경로를 정해줌으로써 데이터를 보낼 곳을 지정해준다.
+
+    4. 결과
+
+       오류뜸. 해결은 그 다음 단계............
+
+
+
+​	<img src=".\33-1. csrf.png">
+
 
 
 
@@ -1105,10 +1160,7 @@ DETAIL 페이지
 
 '23 0321
 
-render와 redirect의 차이점
-
-- render : 화면을 바로 그린다.  
-- redirect : url로 보낸다.
+- 
 
 ![image-20230321150435770](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20230321150435770.png) 
 return없이 redirect를 쓰면 이동할 url을 알려주기만 한다. 
