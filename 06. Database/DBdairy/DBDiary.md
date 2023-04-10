@@ -914,3 +914,12 @@ WHERE search_condition;
 ### JOIN
 
 테이블은 여러개로 나뉜다. 
+
+
+
+
+
+### N:1(A many-to-one-relationship)
+
+
+
