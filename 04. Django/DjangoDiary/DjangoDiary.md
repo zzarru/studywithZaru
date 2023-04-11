@@ -1391,3 +1391,4 @@ vs code 설정
 emmet 설정 : django-html  / html 추가하기
 
 자동 줄바꿈 : 설정 - word wrap 켜주기
+
