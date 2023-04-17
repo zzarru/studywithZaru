@@ -724,6 +724,8 @@ csv (comma-seperated values) : 필드를 쉼표(,)로 구분한 텍스트 데이
 
   <img src="6-1. count.png">
 
+  
+
   <img src="6-2. count.png">
 
   <img src="6-3. count.png">
@@ -1024,7 +1026,81 @@ PK가 아닌 다른 속성에 의존(종속) 하는 속성은 따로 분리한�
 
 테이블은 여러개로 나뉜다. 
 
+우리가 조회하려는 데이터를 모아서 테이블 1개를 만들어야한다.
 
+== 테이블을 연결하는 것이 필요하다.
+
+== JOIN (두 개 이상의 테이블에서 데이터를 가져와 결합하는 것)
+
+:question: 어떻게 데이터를 합쳐서 하나의 테이블을 만들 수 있을까?
+
+`SELECT * FROM articles, users;` 로 테이블을 합치면 -> article 행 하나에 users 테이블을 다 합친다. e.g. article1 -- user1, user2, user3, ... / article 2 -- user1, user2, user3,...
+
+== `CROSS JOIN`
+
+
+
+- CROSS JOIN : 모든 조합을 출력한다.
+
+:question:articles의 userid와 users의 id가 같은 것만 조회해서 테이블을 만드려면?
+
+`SELECT * FROM articles, users WHERE articles.userid = users.rowid;` (== `SELECT * FROM articles, users WHERE userid = users.rowid;`)
+
+> userid 같은 경우에는 테이블에 하나 뿐이어서 따로 명시 안해줘도 된다. 즉, `articles.userid` == `userid` 
+
+
+
+- INNERN JOIN : 두 테이블에서 조건에 일치하는 데이터만 결과 출력
+
+  `[테이블명1] INNER JOIN [테이블명2] ON [조건식]` 
+
+  ```sql
+  SELECT * FROM articles, users
+  WHERE articles.userid=users.rowid;
+  
+  또는
+  
+  SELECT * FROM articles INNER JOIN users
+  ON userid=users.rowid;
+  ```
+
+  > 둘 다 같은 결과를 주지만, 아래 방식을 권장함. (더 명확하기 때문에)
+
+  
+
+:heavy_exclamation_mark:그렇지만 우리가 합치려는 데이터는 일정하지 않다! 합치려는 두 테이블 간의 컬럼의 갯수가 일치하지 않을 수 있다. 
+
+- LEFT (OUTER) JOIN : 왼쪽 테이블의 데이터를 기준으로 오른쪽 데이터 결합 (없으면 NULL 출력)
+
+  ```sql
+  SELECT * FROM articles LEFT JOIN users
+  ON userid=users.rowid;
+  ```
+
+  
+
+  <img src="10-1. join.png">
+
+> Articles의 데이터는 누락되지 않으면서 users에 데이터가 있으면 같이 가져온다.
+>
+> users에 데이터가 없는 경우 NULL로 출력된다.
+
+
+
+- RIGHT (OUTER) JOIN
+
+  ```sql
+  SELECT * FROM articles RIGHT JOIN users
+  ON userid=users.rowid;
+  ```
+
+  <img src="10-2. join.png">
+
+> Users의 데이터는 누락되지 않으면서 articles에 데이터가 있으면 같이 가져온다.
+
+
+
+- FULL OUTER JOIN : 합집합과 같은 개념. 왼쪽과 오른쪽 테이블 데이터를 모두 읽어서 중복된 값을 제외한 결과를 출력한다. 
 
 
 
